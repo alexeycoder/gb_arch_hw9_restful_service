@@ -1,0 +1,436 @@
+
+"openapi": "3.0.0"
+"info":
+  "title": "Заказ ресурсов в облаке"
+  "version": "0.0.1"
+  "description": "API сервиса аренды и управления ресурсами в облаке"
+  "contact":
+    "name": "Alexey Kuznetsov"
+    "url": "https://github.com/alexeycoder/gb_arch_hw9_restful_service"
+"servers":
+  -
+    "url": "http://localhost:8080/api/v1/"
+    "description": "Dev server"
+"paths":
+  "/clouds":
+    "get":
+      "summary": "Список ресурсов в облаке"
+      "description": "Возвращает список всех имеющихся у пользователя ресурсов в облаке"
+      "tags":
+        - "Clouds"
+      "operationId": "getAllClouds"
+      "responses":
+        "default":
+          "description": "Прочие ответы"
+          "content":
+            "application/json":
+              "schema":
+                "type": "object"
+                "required":
+                  - "code"
+                  - "message"
+                "properties":
+                  "code":
+                    "type": "integer"
+                  "message":
+                    "type": "string"
+        "200":
+          "description": "Успешный ответ со списком ресурсов"
+          "content":
+            "application/json":
+              "schema":
+                "type": "array"
+                "items":
+                  "type": "object"
+                  "required":
+                    - "client_id"
+                    - "os"
+                    - "ram"
+                    - "cpu"
+                    - "hdd"
+                  "properties":
+                    "cloud_id":
+                      "type": "string"
+                      "format": "uuid"
+                      "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+                    "client_id":
+                      "type": "string"
+                      "format": "uuid"
+                      "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+                    "os":
+                      "type": "string"
+                      "enum":
+                        - "windows"
+                        - "linux"
+                      "description": "Операционная система"
+                    "ram":
+                      "type": "integer"
+                      "format": "int32"
+                      "example": 128
+                      "description": "Объём оперативной памяти, Мб"
+                    "cpu":
+                      "type": "integer"
+                      "format": "int32"
+                      "example": 8
+                      "description": "Количество CPU"
+                    "hdd":
+                      "type": "integer"
+                      "format": "int32"
+                      "example": 10000
+                      "description": "Объём дискового простанства, Мб"
+    "post":
+      "summary": "Добавление заказа ресурсов в облаке"
+      "description": "Добавление заказа ресурсов в облаке"
+      "tags":
+        - "Clouds"
+      "operationId": "addCloud"
+      "requestBody":
+        "description": "Размещает заказ на выделение новых ресурсов в облаке"
+        "content":
+          "application/json":
+            "schema":
+              "type": "object"
+              "required":
+                - "client_id"
+                - "os"
+                - "ram"
+                - "cpu"
+                - "hdd"
+              "properties":
+                "cloud_id":
+                  "type": "string"
+                  "format": "uuid"
+                  "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+                "client_id":
+                  "type": "string"
+                  "format": "uuid"
+                  "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+                "os":
+                  "type": "string"
+                  "enum":
+                    - "windows"
+                    - "linux"
+                  "description": "Операционная система"
+                "ram":
+                  "type": "integer"
+                  "format": "int32"
+                  "example": 128
+                  "description": "Объём оперативной памяти, Мб"
+                "cpu":
+                  "type": "integer"
+                  "format": "int32"
+                  "example": 8
+                  "description": "Количество CPU"
+                "hdd":
+                  "type": "integer"
+                  "format": "int32"
+                  "example": 10000
+                  "description": "Объём дискового простанства, Мб"
+      "responses":
+        "default":
+          "description": "Прочие ответы"
+          "content":
+            "application/problem+json":
+              "schema":
+                "type": "object"
+                "required":
+                  - "code"
+                  - "message"
+                "properties":
+                  "code":
+                    "type": "integer"
+                  "message":
+                    "type": "string"
+        "200":
+          "description": "Успешный заказ"
+          "content":
+            "application/json":
+              "schema":
+                "type": "object"
+                "required":
+                  - "client_id"
+                  - "os"
+                  - "ram"
+                  - "cpu"
+                  - "hdd"
+                "properties":
+                  "cloud_id":
+                    "type": "string"
+                    "format": "uuid"
+                    "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+                  "client_id":
+                    "type": "string"
+                    "format": "uuid"
+                    "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+                  "os":
+                    "type": "string"
+                    "enum":
+                      - "windows"
+                      - "linux"
+                    "description": "Операционная система"
+                  "ram":
+                    "type": "integer"
+                    "format": "int32"
+                    "example": 128
+                    "description": "Объём оперативной памяти, Мб"
+                  "cpu":
+                    "type": "integer"
+                    "format": "int32"
+                    "example": 8
+                    "description": "Количество CPU"
+                  "hdd":
+                    "type": "integer"
+                    "format": "int32"
+                    "example": 10000
+                    "description": "Объём дискового простанства, Мб"
+  "/clouds/{cloud_id}":
+    "get":
+      "summary": "Поиск заказа по ID"
+      "tags":
+        - "Clouds"
+      "operationId": "getCloud"
+      "parameters":
+        -
+          "name": "cloud_id"
+          "in": "path"
+          "required": true
+          "description": "Идентификатор заказа в облаке"
+          "schema":
+            "type": "string"
+            "format": "uuid"
+          "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+      "responses":
+        "default":
+          "description": "Прочие ответы"
+          "content":
+            "application/problem+json":
+              "schema":
+                "type": "object"
+                "required":
+                  - "code"
+                  - "message"
+                "properties":
+                  "code":
+                    "type": "integer"
+                  "message":
+                    "type": "string"
+        "200":
+          "description": "Успешный ответ с заказом"
+          "content":
+            "application/json":
+              "schema":
+                "type": "object"
+                "required":
+                  - "client_id"
+                  - "os"
+                  - "ram"
+                  - "cpu"
+                  - "hdd"
+                "properties":
+                  "cloud_id":
+                    "type": "string"
+                    "format": "uuid"
+                    "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+                  "client_id":
+                    "type": "string"
+                    "format": "uuid"
+                    "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+                  "os":
+                    "type": "string"
+                    "enum":
+                      - "windows"
+                      - "linux"
+                    "description": "Операционная система"
+                  "ram":
+                    "type": "integer"
+                    "format": "int32"
+                    "example": 128
+                    "description": "Объём оперативной памяти, Мб"
+                  "cpu":
+                    "type": "integer"
+                    "format": "int32"
+                    "example": 8
+                    "description": "Количество CPU"
+                  "hdd":
+                    "type": "integer"
+                    "format": "int32"
+                    "example": 10000
+                    "description": "Объём дискового простанства, Мб"
+        "400":
+          "description": "Предоставлен некорректный идентификатор"
+          "content":
+            "application/problem+json":
+              "schema":
+                "type": "object"
+                "required":
+                  - "code"
+                  - "message"
+                "properties":
+                  "code":
+                    "type": "integer"
+                  "message":
+                    "type": "string"
+        "404":
+          "description": "Заказ не найден"
+          "content":
+            "application/problem+json":
+              "schema":
+                "type": "object"
+                "required":
+                  - "code"
+                  - "message"
+                "properties":
+                  "code":
+                    "type": "integer"
+                  "message":
+                    "type": "string"
+    "delete":
+      "summary": "Отмена заказа по ID"
+      "tags":
+        - "Clouds"
+      "operationId": "cancelCloudById"
+      "parameters":
+        -
+          "name": "cloud_id"
+          "in": "path"
+          "required": true
+          "description": "Идентификатор заказа в облаке"
+          "schema":
+            "type": "string"
+            "format": "uuid"
+          "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+      "responses":
+        "default":
+          "description": "Прочие ответы"
+          "content":
+            "application/problem+json":
+              "schema":
+                "type": "object"
+                "required":
+                  - "code"
+                  - "message"
+                "properties":
+                  "code":
+                    "type": "integer"
+                  "message":
+                    "type": "string"
+        "204":
+          "description": "Успешная отмена заказа по ID"
+        "400":
+          "description": "Предоставлен некорректный идентификатор"
+          "content":
+            "application/problem+json":
+              "schema":
+                "type": "object"
+                "required":
+                  - "code"
+                  - "message"
+                "properties":
+                  "code":
+                    "type": "integer"
+                  "message":
+                    "type": "string"
+        "404":
+          "description": "Заказ не найден"
+          "content":
+            "application/problem+json":
+              "schema":
+                "type": "object"
+                "required":
+                  - "code"
+                  - "message"
+                "properties":
+                  "code":
+                    "type": "integer"
+                  "message":
+                    "type": "string"
+"components":
+  "schemas":
+    "Cloud":
+      "type": "object"
+      "required":
+        - "client_id"
+        - "os"
+        - "ram"
+        - "cpu"
+        - "hdd"
+      "properties":
+        "cloud_id":
+          "type": "string"
+          "format": "uuid"
+          "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+        "client_id":
+          "type": "string"
+          "format": "uuid"
+          "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+        "os":
+          "type": "string"
+          "enum":
+            - "windows"
+            - "linux"
+          "description": "Операционная система"
+        "ram":
+          "type": "integer"
+          "format": "int32"
+          "example": 128
+          "description": "Объём оперативной памяти, Мб"
+        "cpu":
+          "type": "integer"
+          "format": "int32"
+          "example": 8
+          "description": "Количество CPU"
+        "hdd":
+          "type": "integer"
+          "format": "int32"
+          "example": 10000
+          "description": "Объём дискового простанства, Мб"
+    "Clouds":
+      "type": "array"
+      "items":
+        "type": "object"
+        "required":
+          - "client_id"
+          - "os"
+          - "ram"
+          - "cpu"
+          - "hdd"
+        "properties":
+          "cloud_id":
+            "type": "string"
+            "format": "uuid"
+            "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+          "client_id":
+            "type": "string"
+            "format": "uuid"
+            "example": "c229ad20-048d-4f52-8d9d-2ebb7c645d8e"
+          "os":
+            "type": "string"
+            "enum":
+              - "windows"
+              - "linux"
+            "description": "Операционная система"
+          "ram":
+            "type": "integer"
+            "format": "int32"
+            "example": 128
+            "description": "Объём оперативной памяти, Мб"
+          "cpu":
+            "type": "integer"
+            "format": "int32"
+            "example": 8
+            "description": "Количество CPU"
+          "hdd":
+            "type": "integer"
+            "format": "int32"
+            "example": 10000
+            "description": "Объём дискового простанства, Мб"
+    "Error":
+      "type": "object"
+      "required":
+        - "code"
+        - "message"
+      "properties":
+        "code":
+          "type": "integer"
+        "message":
+          "type": "string"
