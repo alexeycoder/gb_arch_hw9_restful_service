@@ -17,3 +17,5 @@
 См.: [spring-server-generated/](spring-server-generated)
 
 
+![swagger](https://github.com/user-attachments/assets/6b74aedd-e7d6-40fb-b81e-d8cff6d7751e)
+
